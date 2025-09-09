@@ -15,7 +15,6 @@ body {
   overflow-x: hidden;
 }
 
-
 /* ---------- Fixed Logo ---------- */
 .logo-fixed {
   position: fixed;
@@ -29,7 +28,6 @@ body {
   text-decoration: none;
 }
 
-
 /* ---------- Bottom Navigation (Topbar) ---------- */
 .topbar {
   position: fixed;
@@ -38,32 +36,38 @@ body {
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  padding: 12px 15px;
+  padding: 10px 15px; /* Reduced vertical padding to decrease height */
   z-index: 1000;
 }
 
-
-.topbar button {
-  background: #ff0000;
+.topbar .nav-icon {
+  background: none;
   border: none;
-  padding: 8px 16px;
-  border-radius: 30px;
-  color: white;
   cursor: pointer;
-  transition: 0.3s;
-}
-.topbar button:hover {
-  background: #ff4d4d;
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
 }
 
+.topbar .nav-icon:hover {
+  transform: scale(1.1);
+}
+
+.topbar svg {
+  width: 32px;
+  height: 32px;
+  fill: white;
+}
 
 /* Push feed above bottom bar */
 .feed {
-  margin-bottom: 80px;
+  margin-bottom: 70px; /* Reduced to match smaller bar height */
 }
-
 
 .user-info {
   display: flex;
@@ -88,7 +92,6 @@ body {
   display: none;
   white-space: nowrap;
 }
-
 
 /* ---------- Auth Forms ---------- */
 .auth-container {
@@ -182,7 +185,6 @@ button:hover {
 }
 #signupForm { display: none; }
 
-
 /* ---------- Feed ---------- */
 .feed {
   margin-top: 80px;
@@ -199,7 +201,6 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0px 6px 15px rgba(0,0,0,0.3);
 }
-
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) { /* Added tablet breakpoint */
@@ -219,10 +220,18 @@ button:hover {
     font-size: 1.4rem;
   }
   .topbar {
-    padding: 10px 12px;
+    padding: 8px 12px; /* Reduced for smaller screens */
   }
-  .topbar button {
-    padding: 7px 14px;
+  .topbar .nav-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .topbar svg {
+    width: 30px;
+    height: 30px;
+  }
+  .feed {
+    margin-bottom: 65px;
   }
 }
 
@@ -239,6 +248,20 @@ button:hover {
     width: 35px;
     height: 35px;
   }
+  .topbar {
+    padding: 6px 10px;
+  }
+  .topbar .nav-icon {
+    width: 45px;
+    height: 45px;
+  }
+  .topbar svg {
+    width: 28px;
+    height: 28px;
+  }
+  .feed {
+    margin-bottom: 60px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -246,11 +269,15 @@ button:hover {
   button { padding: 10px; font-size: clamp(0.8rem, 5vw, 0.9rem); }
   input { padding: 10px; font-size: clamp(0.8rem, 5vw, 0.9rem); }
   .feed-container { font-size: clamp(0.8rem, 4.5vw, 0.9rem); }
-  .topbar { padding: 10px; }
-  .topbar button { padding: 6px 12px; font-size: clamp(0.7rem, 4vw, 0.8rem); }
+  .topbar { padding: 5px 8px; }
+  .topbar .nav-icon { width: 40px; height: 40px; }
+  .topbar svg { width: 24px; height: 24px; }
   .logo-fixed {
     font-size: 1.2rem;
     left: 10px;
+  }
+  .feed {
+    margin-bottom: 55px;
   }
 }
   </style>
@@ -288,24 +315,33 @@ button:hover {
     </div>
   </div>
 
-
   <!-- Home Section -->
   <div id="homeContent" style="display: none;">
     <!-- Fixed Moto Logo -->
     <a href="index.html" class="logo-fixed">Moto</a>
 
-
     <div class="topbar">
-      <div class="topbar-container">
-        <div class="user-info">
-          
-          <a href="1000/profile.html">
-            <img id="profileIcon" src="https://via.placeholder.com/40" alt="Profile">
-          </a>
-        </div>
-      </div>
-    </div>
+      <!-- Feed icon on left edge (using a simple list/feed icon) -->
+      <button class="nav-icon" onclick="goToFeed()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"/>
+        </svg>
+      </button>
 
+      <!-- User info (profile icon) in the center -->
+      <div class="user-info">
+        <a href="1000/profile.html">
+          <img id="profileIcon" src="https://via.placeholder.com/40" alt="Profile">
+        </a>
+      </div>
+
+      <!-- Home icon on right edge (using a simple house icon) -->
+      <button class="nav-icon" onclick="goToHome()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+      </button>
+    </div>
 
     <div class="feed">
       <div class="feed-container">
@@ -315,13 +351,11 @@ button:hover {
     </div>
   </div>
 
-
   <!-- Firebase + App Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, onAuthStateChanged } 
       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
 
     const firebaseConfig = {
       apiKey: "AIzaSyCR1RiCfqPUJHOqByJTfK2c4rz96cGrzjw",
@@ -332,15 +366,12 @@ button:hover {
       appId: "1:165891636705:web:d680c9b05ec22911bd66a0"
     };
 
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-
     // Animate auth box
     gsap.to(".auth-box", { duration: 1, opacity: 1, scale: 1, y: 0, ease: "power3.out" });
-
 
     // Auth state listener
     onAuthStateChanged(auth, (user) => {
@@ -348,13 +379,11 @@ button:hover {
         document.getElementById("authContent").style.display = "none";
         document.getElementById("homeContent").style.display = "block";
 
-
         // Profile info
         document.getElementById("profileIcon").src = user.photoURL || "https://via.placeholder.com/40";
         document.getElementById("profileIcon").style.display = "block";
         document.getElementById("username").textContent = user.displayName || user.email;
         document.getElementById("username").style.display = "inline";
-
 
         gsap.from(".feed-container", { duration: 0.7, opacity: 0, y: 20, ease: "power2.out" });
       } else {
@@ -362,7 +391,6 @@ button:hover {
         document.getElementById("homeContent").style.display = "none";
       }
     });
-
 
     function showLogin() {
       gsap.to("#signupForm", { duration: 0.5, opacity: 0, x: 100 });
@@ -375,7 +403,6 @@ button:hover {
       document.querySelectorAll(".form-toggle button")[1].classList.remove("active");
     }
 
-
     function showSignup() {
       gsap.to("#loginForm", { duration: 0.5, opacity: 0, x: -100 });
       setTimeout(() => {
@@ -387,7 +414,6 @@ button:hover {
       document.querySelectorAll(".form-toggle button")[0].classList.remove("active");
     }
 
-
     async function login() {
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
@@ -397,7 +423,6 @@ button:hover {
         alert("Login failed: " + e.message);
       }
     }
-
 
     async function signup() {
       const email = document.getElementById("signupEmail").value;
@@ -409,7 +434,6 @@ button:hover {
       }
     }
 
-
     async function googleSignIn() {
       try {
         await signInWithPopup(auth, provider);
@@ -417,7 +441,6 @@ button:hover {
         alert("Google login failed: " + e.message);
       }
     }
-
 
     async function forgotPassword() {
       const email = document.getElementById("loginEmail").value;
@@ -433,6 +456,16 @@ button:hover {
       }
     }
 
+    // Placeholder functions for navigation (you can implement actual logic)
+    function goToFeed() {
+      // Logic to navigate to feed (e.g., scroll or load content)
+      alert("Navigating to Feed");
+    }
+
+    function goToHome() {
+      // Logic to navigate to home (e.g., reload or load content)
+      alert("Navigating to Home");
+    }
 
     // Expose to global scope
     window.login = login;
@@ -441,6 +474,8 @@ button:hover {
     window.forgotPassword = forgotPassword;
     window.showLogin = showLogin;
     window.showSignup = showSignup;
+    window.goToFeed = goToFeed;
+    window.goToHome = goToHome;
   </script>
 </body>
 </html>
