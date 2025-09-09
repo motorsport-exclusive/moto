@@ -7,38 +7,52 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <style>
 body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #000000, #ff0000) no-repeat center center fixed;
-  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  color: white;
 }
 
-/* ---------- Fixed Logo ---------- */
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Logo */
 .logo-fixed {
   position: fixed;
   top: 10px;
   left: 15px;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  color: #ff0000;
+  color: #ff2e2e;
   text-transform: uppercase;
   z-index: 1100;
   text-decoration: none;
+  text-shadow: 0 0 8px rgba(255,46,46,0.7);
 }
 
-/* ---------- Bottom Navigation (Topbar) ---------- */
+/* Bottom Navigation */
 .topbar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  background: rgba(20, 20, 20, 0.85);
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 15px; /* Reduced vertical padding to decrease height */
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
   z-index: 1000;
 }
 
@@ -46,146 +60,142 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s, filter 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
 }
 
 .topbar .nav-icon:hover {
   transform: scale(1.1);
+  filter: drop-shadow(0 0 8px #ff2e2e);
 }
 
 .topbar svg {
-  width: 32px;
-  height: 32px;
-  fill: white;
+  width: 30px;
+  height: 30px;
+  fill: #fff;
 }
 
-/* Push feed above bottom bar */
-.feed {
-  margin-bottom: 70px; /* Reduced to match smaller bar height */
-}
-
+/* Profile Icon */
 .user-info {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
 }
 #profileIcon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: 2px solid #ff0000;
+  border: 2px solid #ff2e2e;
   cursor: pointer;
-  transition: transform 0.3s;
   display: none;
+  box-shadow: 0 0 10px rgba(255,46,46,0.6);
+  transition: transform 0.3s ease;
 }
 #profileIcon:hover {
-  transform: scale(1.1);
-}
-.username {
-  font-size: 0.9rem;
-  color: white;
-  display: none;
-  white-space: nowrap;
+  transform: scale(1.1) rotate(3deg);
 }
 
-/* ---------- Auth Forms ---------- */
+/* Auth Forms */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  text-align: center;
   padding: 20px;
 }
 .auth-box {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
+  background: rgba(20, 20, 20, 0.9);
+  border-radius: 20px;
   padding: 30px;
   width: 100%;
   max-width: 380px;
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  text-align: center;
   opacity: 0;
   transform: scale(0.9) translateY(50px);
 }
+
 h2 {
   margin-bottom: 20px;
-  color: #ff0000;
+  color: #ff2e2e;
   font-weight: bold;
   text-transform: uppercase;
-  font-size: clamp(1.2rem, 5vw, 2rem); /* Responsive typography */
+  letter-spacing: 2px;
 }
+
 input {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-  font-size: clamp(0.9rem, 4vw, 1rem); /* Responsive input text */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  transition: border 0.3s, background 0.3s;
 }
 input:focus {
-  border-color: #ff0000;
+  border: 1px solid #ff2e2e;
+  background: rgba(255,255,255,0.1);
   outline: none;
 }
+
 button {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
   border: none;
-  border-radius: 8px;
-  background: #ff0000;
+  border-radius: 10px;
+  background: #ff2e2e;
   color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  font-size: clamp(0.9rem, 4vw, 1rem); /* Responsive button text */
+  transition: transform 0.2s, background 0.3s;
 }
 button:hover {
-  background: #cc0000;
-  transform: scale(1.05);
+  background: #e02020;
+  transform: translateY(-2px);
 }
+
 .google-btn {
   background: #db4437;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
 }
 .google-btn img {
-  width: clamp(16px, 5vw, 20px); /* Responsive image size */
-  margin-right: 10px;
+  width: 20px;
 }
+
 .form-toggle {
   display: flex;
   justify-content: space-around;
   margin-bottom: 20px;
+  gap: 10px;
 }
 .form-toggle button {
   width: 48%;
-  background: #333;
+  background: rgba(255,255,255,0.1);
   color: white;
 }
 .form-toggle button.active {
-  background: #ff0000;
+  background: #ff2e2e;
 }
+
 .forgot-password {
   display: block;
   margin-top: 10px;
-  color: #ff0000;
-  text-decoration: none;
+  color: #ff2e2e;
   cursor: pointer;
-  transition: color 0.3s ease;
-  font-size: clamp(0.8rem, 3.5vw, 0.9rem); /* Responsive link text */
+  font-size: 0.9rem;
 }
-.forgot-password:hover {
-  color: #cc0000;
-}
-#signupForm { display: none; }
 
-/* ---------- Feed ---------- */
+/* Feed */
 .feed {
   margin-top: 80px;
   display: flex;
@@ -196,102 +206,30 @@ button:hover {
   width: 100%;
   max-width: 600px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 6px 15px rgba(0,0,0,0.3);
+  background: rgba(20,20,20,0.9);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 1024px) { /* Added tablet breakpoint */
-  .auth-box {
-    padding: 25px;
-    max-width: 70%;
-  }
-  .feed-container {
-    max-width: 80%;
-    padding: 18px;
-  }
-  #profileIcon {
-    width: 38px;
-    height: 38px;
-  }
-  .logo-fixed {
-    font-size: 1.4rem;
-  }
-  .topbar {
-    padding: 8px 12px; /* Reduced for smaller screens */
-  }
-  .topbar .nav-icon {
-    width: 48px;
-    height: 48px;
-  }
-  .topbar svg {
-    width: 30px;
-    height: 30px;
-  }
-  .feed {
-    margin-bottom: 65px;
-  }
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-  .auth-box {
-    padding: 20px;
-    max-width: 90%;
-  }
-  .feed-container {
-    max-width: 90%;
-    padding: 15px;
-  }
-  #profileIcon {
-    width: 35px;
-    height: 35px;
-  }
-  .topbar {
-    padding: 6px 10px;
-  }
-  .topbar .nav-icon {
-    width: 45px;
-    height: 45px;
-  }
-  .topbar svg {
-    width: 28px;
-    height: 28px;
-  }
-  .feed {
-    margin-bottom: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  h2 { font-size: clamp(1rem, 6vw, 1.5rem); } /* Adjusted for smaller screens */
-  button { padding: 10px; font-size: clamp(0.8rem, 5vw, 0.9rem); }
-  input { padding: 10px; font-size: clamp(0.8rem, 5vw, 0.9rem); }
-  .feed-container { font-size: clamp(0.8rem, 4.5vw, 0.9rem); }
-  .topbar { padding: 5px 8px; }
-  .topbar .nav-icon { width: 40px; height: 40px; }
-  .topbar svg { width: 24px; height: 24px; }
-  .logo-fixed {
-    font-size: 1.2rem;
-    left: 10px;
-  }
-  .feed {
-    margin-bottom: 55px;
-  }
+  .topbar { width: 95%; }
+  #profileIcon { width: 42px; height: 42px; }
+  h2 { font-size: 1.3rem; }
 }
   </style>
 </head>
 <body>
   <!-- Auth Section -->
   <div class="auth-container" id="authContent">
-    <div class="auth-box">
+    <div class="auth-box glass">
       <h2>Moto App</h2>
       <div class="form-toggle">
         <button onclick="showLogin()" class="active">Login</button>
         <button onclick="showSignup()">Signup</button>
       </div>
-      
+
       <!-- Login Form -->
       <div id="loginForm">
         <input id="loginEmail" type="email" placeholder="Email"><br>
@@ -302,9 +240,9 @@ button:hover {
           <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo"> Login with Google
         </button>
       </div>
-      
+
       <!-- Signup Form -->
-      <div id="signupForm">
+      <div id="signupForm" style="display:none;">
         <input id="signupEmail" type="email" placeholder="Email"><br>
         <input id="signupPassword" type="password" placeholder="Password"><br>
         <button onclick="signup()">Signup</button>
@@ -316,26 +254,22 @@ button:hover {
   </div>
 
   <!-- Home Section -->
-  <div id="homeContent" style="display: none;">
-    <!-- Fixed Moto Logo -->
+  <div id="homeContent" style="display:none;">
     <a href="index.html" class="logo-fixed">Moto</a>
 
-    <div class="topbar">
-      <!-- Feed icon on left edge (using a simple list/feed icon) -->
+    <div class="topbar glass">
       <button class="nav-icon" onclick="goToFeed()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"/>
         </svg>
       </button>
 
-      <!-- User info (profile icon) in the center -->
       <div class="user-info">
         <a href="1000/profile.html">
           <img id="profileIcon" src="https://via.placeholder.com/40" alt="Profile">
         </a>
       </div>
 
-      <!-- Home icon on right edge (using a simple house icon) -->
       <button class="nav-icon" onclick="goToHome()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -344,7 +278,7 @@ button:hover {
     </div>
 
     <div class="feed">
-      <div class="feed-container">
+      <div class="feed-container glass">
         <h2>Welcome to Motorsport Exclusive!</h2>
         <p>Feed and events will appear here soon...</p>
       </div>
@@ -373,18 +307,12 @@ button:hover {
     // Animate auth box
     gsap.to(".auth-box", { duration: 1, opacity: 1, scale: 1, y: 0, ease: "power3.out" });
 
-    // Auth state listener
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById("authContent").style.display = "none";
         document.getElementById("homeContent").style.display = "block";
-
-        // Profile info
         document.getElementById("profileIcon").src = user.photoURL || "https://via.placeholder.com/40";
         document.getElementById("profileIcon").style.display = "block";
-        document.getElementById("username").textContent = user.displayName || user.email;
-        document.getElementById("username").style.display = "inline";
-
         gsap.from(".feed-container", { duration: 0.7, opacity: 0, y: 20, ease: "power2.out" });
       } else {
         document.getElementById("authContent").style.display = "flex";
@@ -393,23 +321,15 @@ button:hover {
     });
 
     function showLogin() {
-      gsap.to("#signupForm", { duration: 0.5, opacity: 0, x: 100 });
-      setTimeout(() => {
-        document.getElementById("signupForm").style.display = "none";
-        document.getElementById("loginForm").style.display = "block";
-        gsap.to("#loginForm", { duration: 0.5, opacity: 1, x: 0 });
-      }, 500);
+      document.getElementById("signupForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
       document.querySelectorAll(".form-toggle button")[0].classList.add("active");
       document.querySelectorAll(".form-toggle button")[1].classList.remove("active");
     }
 
     function showSignup() {
-      gsap.to("#loginForm", { duration: 0.5, opacity: 0, x: -100 });
-      setTimeout(() => {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("signupForm").style.display = "block";
-        gsap.to("#signupForm", { duration: 0.5, opacity: 1, x: 0 });
-      }, 500);
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("signupForm").style.display = "block";
       document.querySelectorAll(".form-toggle button")[1].classList.add("active");
       document.querySelectorAll(".form-toggle button")[0].classList.remove("active");
     }
@@ -444,10 +364,7 @@ button:hover {
 
     async function forgotPassword() {
       const email = document.getElementById("loginEmail").value;
-      if (!email) {
-        alert("Please enter your email to reset password.");
-        return;
-      }
+      if (!email) return alert("Please enter your email to reset password.");
       try {
         await sendPasswordResetEmail(auth, email);
         alert("Password reset email sent!");
@@ -456,18 +373,13 @@ button:hover {
       }
     }
 
-    // Placeholder functions for navigation (you can implement actual logic)
     function goToFeed() {
-      // Logic to navigate to feed (e.g., scroll or load content)
       alert("Navigating to Feed");
     }
-
     function goToHome() {
-      // Logic to navigate to home (e.g., reload or load content)
       alert("Navigating to Home");
     }
 
-    // Expose to global scope
     window.login = login;
     window.signup = signup;
     window.googleSignIn = googleSignIn;
