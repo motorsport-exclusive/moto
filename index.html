@@ -44,12 +44,12 @@ body {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  width: 85%; /* Reduced from 90% for slightly smaller size */
   background: rgba(20, 20, 20, 0.85);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 20px;
+  padding: 10px 15px; /* Reduced padding for smaller overall size */
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.6);
   backdrop-filter: blur(12px);
@@ -212,11 +212,56 @@ button:hover {
   box-shadow: 0 8px 25px rgba(0,0,0,0.6);
 }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .topbar { width: 95%; }
-  #profileIcon { width: 42px; height: 42px; }
-  h2 { font-size: 1.3rem; }
+  .topbar {
+    bottom: 10px;
+    padding: 8px 12px; /* Slightly reduced for mobile */
+    width: 90%; /* Slightly increased for better fit */
+  }
+  .topbar .nav-icon {
+    width: 45px;
+    height: 45px;
+  }
+  .topbar svg {
+    width: 26px;
+    height: 26px;
+  }
+  #profileIcon {
+    width: 45px;
+    height: 45px;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  .feed {
+    margin-bottom: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar {
+    bottom: 5px;
+    padding: 6px 10px;
+  }
+  .topbar .nav-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .topbar svg {
+    width: 22px;
+    height: 22px;
+  }
+  #profileIcon {
+    width: 40px;
+    height: 40px;
+  }
+  .auth-box {
+    padding: 20px;
+  }
+  .feed-container {
+    padding: 15px;
+  }
 }
   </style>
 </head>
