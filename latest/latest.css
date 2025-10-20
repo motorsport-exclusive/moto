@@ -1,0 +1,147 @@
+:root {
+  --bg: #0b1220;
+  --card: #0f1724;
+  --accent: #ffb703;
+  --muted: #a0aec0;
+  --text: #e6eef8;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: linear-gradient(180deg, #071123 0%, #071827 100%);
+  color: var(--text);
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 18px auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+header h1 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+header .sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.controls button {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.controls button.active {
+  background: var(--accent);
+  color: #081020;
+  border-color: transparent;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 140px;
+  box-shadow: 0 4px 12px rgba(2,6,23,0.6);
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: .9rem;
+  background: #061220;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: rgba(255,255,255,0.03);
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+.title {
+  font-weight: 600;
+  font-size: .98rem;
+}
+
+.excerpt {
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.3;
+}
+
+.empty {
+  padding: 30px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed rgba(255,255,255,0.04);
+  border-radius: 8px;
+}
+
+/* Small screen adjustments */
+@media (max-width:520px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .controls {
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 6px;
+  }
+  .controls button {
+    flex: 0 0 auto;
+  }
+  .wrap {
+    padding: 12px;
+    margin: 10px;
+  }
+}

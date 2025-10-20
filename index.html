@@ -1,479 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moto App - Motorsport Exclusive</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <style>
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  color: white;
-}
-
-/* Glassmorphism Utilities */
-.glass {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Logo */
-.logo-fixed {
-  position: fixed;
-  top: 10px;
-  left: 15px;
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #ff2e2e;
-  text-transform: uppercase;
-  z-index: 1100;
-  text-decoration: none;
-  text-shadow: 0 0 8px rgba(255,46,46,0.7);
-}
-
-/* Bottom Navigation */
-.topbar {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 85%; /* Reduced from 90% for slightly smaller size */
-  background: rgba(20, 20, 20, 0.85);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px; /* Reduced padding for smaller overall size */
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-  backdrop-filter: blur(12px);
-  z-index: 1000;
-}
-
-.topbar .nav-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s, filter 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
-.topbar .nav-icon:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 8px #ff2e2e);
-}
-
-.topbar svg {
-  width: 30px;
-  height: 30px;
-  fill: #fff;
-}
-
-/* Profile Icon */
-.user-info {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#profileIcon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid #ff2e2e;
-  cursor: pointer;
-  display: none;
-  box-shadow: 0 0 10px rgba(255,46,46,0.6);
-  transition: transform 0.3s ease;
-}
-#profileIcon:hover {
-  transform: scale(1.1) rotate(3deg);
-}
-
-/* Auth Forms */
-.auth-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
-}
-.auth-box {
-  background: rgba(20, 20, 20, 0.9);
-  border-radius: 20px;
-  padding: 30px;
-  width: 100%;
-  max-width: 380px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  text-align: center;
-  opacity: 0;
-  transform: scale(0.9) translateY(50px);
-}
-
-h2 {
-  margin-bottom: 20px;
-  color: #ff2e2e;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 10px;
-  background: rgba(255,255,255,0.05);
-  color: white;
-  transition: border 0.3s, background 0.3s;
-}
-input:focus {
-  border: 1px solid #ff2e2e;
-  background: rgba(255,255,255,0.1);
-  outline: none;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 10px;
-  background: #ff2e2e;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
-}
-button:hover {
-  background: #e02020;
-  transform: translateY(-2px);
-}
-
-.google-btn {
-  background: #db4437;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.google-btn img {
-  width: 20px;
-}
-
-.form-toggle {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-.form-toggle button {
-  width: 48%;
-  background: rgba(255,255,255,0.1);
-  color: white;
-}
-.form-toggle button.active {
-  background: #ff2e2e;
-}
-
-.forgot-password {
-  display: block;
-  margin-top: 10px;
-  color: #ff2e2e;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-/* Feed */
-.feed {
-  margin-top: 80px;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-.feed-container {
-  width: 100%;
-  max-width: 600px;
-  text-align: center;
-  background: rgba(20,20,20,0.9);
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .topbar {
-    bottom: 10px;
-    padding: 8px 12px; /* Slightly reduced for mobile */
-    width: 90%; /* Slightly increased for better fit */
-  }
-  .topbar .nav-icon {
-    width: 45px;
-    height: 45px;
-  }
-  .topbar svg {
-    width: 26px;
-    height: 26px;
-  }
-  #profileIcon {
-    width: 45px;
-    height: 45px;
-  }
-  h2 {
-    font-size: 1.3rem;
-  }
-  .feed {
-    margin-bottom: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .topbar {
-    bottom: 5px;
-    padding: 6px 10px;
-  }
-  .topbar .nav-icon {
-    width: 40px;
-    height: 40px;
-  }
-  .topbar svg {
-    width: 22px;
-    height: 22px;
-  }
-  #profileIcon {
-    width: 40px;
-    height: 40px;
-  }
-  .auth-box {
-    padding: 20px;
-  }
-  .feed-container {
-    padding: 15px;
-  }
-}
-.feed {
-  margin-top: 50px;    /* gap for Moto logo / topbar */
-  margin-bottom: 82px; /* gap for bottom menu */
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  height: calc(100vh - 180px);
-}
-
-.feed-container {
-  width: 100%;
-  max-width: 600px; /* default: mobile look */
-  height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  background: rgba(20,20,20,0.9);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-}
-
-/* PC / Large Screens */
-@media (min-width: 1024px) {
-  .feed-container {
-    max-width: 100%;    /* full width */
-    border-radius: 0;   /* remove rounding to touch edges */
-    background: none;   /* let iframe fill naturally */
-    box-shadow: none;   /* optional: remove shadow */
-  }
-
-  .feed-container iframe {
-    border-radius: 0;
-  }
-}
-
-/* Responsive iframe */
-.feed-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-  </style>
+    <meta charset="UTF-8">
+    <title>Motorsport Exclusive</title>
+    <link rel="stylesheet" href="index.css">
+    <script defer src="index.js"></script>
 </head>
 <body>
-  <!-- Auth Section -->
-  <div class="auth-container" id="authContent">
-    <div class="auth-box glass">
-      <h2>Moto App</h2>
-      <div class="form-toggle">
-        <button onclick="showLogin()" class="active">Login</button>
-        <button onclick="showSignup()">Signup</button>
-      </div>
+<header class="main-header">
+  <div class="brand">Motorsport Exclusive</div>
+  <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mainNav">☰</button>
 
-      <!-- Login Form -->
-      <div id="loginForm">
-        <input id="loginEmail" type="email" placeholder="Email"><br>
-        <input id="loginPassword" type="password" placeholder="Password"><br>
-        <button onclick="login()">Login</button>
-        <a class="forgot-password" onclick="forgotPassword()">Forgot Password?</a>
-        <button class="google-btn" onclick="googleSignIn()">
-          <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo"> Login with Google
-        </button>
-      </div>
+  <nav id="mainNav" class="main-nav" role="navigation">
+    <button class="nav active" data-cat="formula1">Formula 1</button>
+    <button class="nav" data-cat="motogp">MotoGP</button>
+    <button class="nav" data-cat="wrc">WRC</button>
+    <button class="nav" data-cat="indylights">Indy</button><br>
+    <button id="accountBtn" class="nav">Account</button>
+  </nav>
+</header>
 
-      <!-- Signup Form -->
-      <div id="signupForm" style="display:none;">
-        <input id="signupEmail" type="email" placeholder="Email"><br>
-        <input id="signupPassword" type="password" placeholder="Password"><br>
-        <button onclick="signup()">Signup</button>
-        <button class="google-btn" onclick="googleSignIn()">
-          <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Logo"> Signup with Google
-        </button>
-      </div>
-    </div>
-  </div>
+<main class="content">
+  <iframe id="latestFrame" src="latest/latest.html" title="Latest content" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+</main>
 
-  <!-- Home Section -->
-  <div id="homeContent" style="display:none;">
-    <a href="index.html" class="logo-fixed">Moto</a>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    <div class="topbar glass">
-      <button class="nav-icon" onclick="goToFeed()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M4 6h18V4H4c-1.1 0-2 .9-2 2v11H0v3h14v-3H4V6zm19 2h-6c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V9c0-.55-.45-1-1-1zm-1 9h-4v-7h4v7z"/>
-        </svg>
-      </button>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCR1RiCfqPUJHOqByJTfK2c4rz96cGrzjw",
+    authDomain: "motoprototype1.firebaseapp.com",
+    projectId: "motoprototype1",
+    storageBucket: "motoprototype1.firebasestorage.app",
+    messagingSenderId: "165891636705",
+    appId: "1:165891636705:web:d680c9b05ec22911bd66a0"
+  };
 
-      <div class="user-info">
-        <a href="1000/profile.html">
-          <img id="profileIcon" src="https://via.placeholder.com/40" alt="Profile">
-        </a>
-      </div>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-      <button class="nav-icon" onclick="goToHome()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-        </svg>
-      </button>
-    </div>
-
-<div class="feed">
-  <div class="feed-container glass">
-    <iframe src="home/home.html"></iframe>
-  </div>
-</div>
-
-  </div>
-
-  <!-- Firebase + App Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, onAuthStateChanged } 
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCR1RiCfqPUJHOqByJTfK2c4rz96cGrzjw",
-      authDomain: "motoprototype1.firebaseapp.com",
-      projectId: "motoprototype1",
-      storageBucket: "motoprototype1.firebasestorage.app",
-      messagingSenderId: "165891636705",
-      appId: "1:165891636705:web:d680c9b05ec22911bd66a0"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-
-    // Animate auth box
-    gsap.to(".auth-box", { duration: 1, opacity: 1, scale: 1, y: 0, ease: "power3.out" });
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("authContent").style.display = "none";
-        document.getElementById("homeContent").style.display = "block";
-        document.getElementById("profileIcon").src = user.photoURL || "https://via.placeholder.com/40";
-        document.getElementById("profileIcon").style.display = "block";
-        gsap.from(".feed-container", { duration: 0.7, opacity: 0, y: 20, ease: "power2.out" });
-      } else {
-        document.getElementById("authContent").style.display = "flex";
-        document.getElementById("homeContent").style.display = "none";
-      }
+  const accountBtn = document.getElementById("accountBtn");
+  if (accountBtn) {
+    accountBtn.addEventListener("click", () => {
+      const user = auth.currentUser || localStorage.getItem("uid");
+      if (user) window.location.href = "/auth/profile.html"; // ✅ updated redirect
+      else window.location.href = "/auth/auth.html";
     });
-
-    function showLogin() {
-      document.getElementById("signupForm").style.display = "none";
-      document.getElementById("loginForm").style.display = "block";
-      document.querySelectorAll(".form-toggle button")[0].classList.add("active");
-      document.querySelectorAll(".form-toggle button")[1].classList.remove("active");
-    }
-
-    function showSignup() {
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("signupForm").style.display = "block";
-      document.querySelectorAll(".form-toggle button")[1].classList.add("active");
-      document.querySelectorAll(".form-toggle button")[0].classList.remove("active");
-    }
-
-    async function login() {
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (e) {
-        alert("Login failed: " + e.message);
-      }
-    }
-
-    async function signup() {
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } catch (e) {
-        alert("Signup failed: " + e.message);
-      }
-    }
-
-    async function googleSignIn() {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (e) {
-        alert("Google login failed: " + e.message);
-      }
-    }
-
-    async function forgotPassword() {
-      const email = document.getElementById("loginEmail").value;
-      if (!email) return alert("Please enter your email to reset password.");
-      try {
-        await sendPasswordResetEmail(auth, email);
-        alert("Password reset email sent!");
-      } catch (e) {
-        alert("Failed to send reset email: " + e.message);
-      }
-    }
-
-    function goToFeed() {
-      alert("Navigating to Feed");
-    }
-    function goToHome() {
-      alert("Navigating to Home");
-    }
-
-    window.login = login;
-    window.signup = signup;
-    window.googleSignIn = googleSignIn;
-    window.forgotPassword = forgotPassword;
-    window.showLogin = showLogin;
-    window.showSignup = showSignup;
-    window.goToFeed = goToFeed;
-    window.goToHome = goToHome;
-  </script>
+  }
+</script>
 </body>
 </html>

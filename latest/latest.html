@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Latest — Motorsport Exclusive</title>
+  <link rel="stylesheet" href="latest.css">
+</head>
+<body>
+  <div class="wrap" id="app">
+    <header>
+      <div>
+        <h1>Latest</h1>
+        <div class="sub" id="currentLabel">All categories</div>
+      </div>
+
+      <div class="controls" aria-hidden="false" id="inlineControls">
+        <button data-cat="all" class="active">All</button>
+        <button data-cat="formula1">Formula 1</button>
+        <button data-cat="motogp">MotoGP</button>
+        <button data-cat="wrc">WRC</button>
+        <button data-cat="indylights">Indy Lights</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="grid" class="grid" role="list"></div>
+
+      <div id="empty" class="empty" style="display:none">
+        No articles in this category yet.
+      </div>
+    </main>
+  </div>
+
+  <noscript>
+    <div style="max-width:900px;margin:20px auto;padding:16px;color:var(--muted);background:rgba(255,255,255,0.02);border-radius:8px;">
+      JavaScript is required to filter the list. Below are the latest items across categories.
+      <ul style="margin-top:10px;color:var(--text);">
+        <li>Verstappen extends dominance — Race report (Formula 1)</li>
+        <li>Bagnaia takes victory — MotoGP roundup</li>
+        <li>Ogier leads WRC stage — Rally highlights</li>
+        <li>Indy Lights: Rising star wins again</li>
+      </ul>
+    </div>
+  </noscript>
+
+  <script src="latest.js"></script>
+</body>
+</html>
