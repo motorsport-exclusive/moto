@@ -2,26 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Motorsport Exclusive</title>
     <link rel="stylesheet" href="index.css">
     <script defer src="index.js"></script>
 </head>
 <body>
 <header class="main-header">
-  <div class="brand">Motorsport Exclusive</div>
-  <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mainNav">☰</button>
+<a class="brand" href="index.html" style="text-decoration:none;color:inherit;">Motorsport Exclusive</a>  <button id="menuToggle" class="menu-toggle" aria-expanded="false" aria-controls="mainNav">☰</button>
 
   <nav id="mainNav" class="main-nav" role="navigation">
     <button class="nav active" data-cat="formula1">Formula 1</button>
     <button class="nav" data-cat="motogp">MotoGP</button>
     <button class="nav" data-cat="wrc">WRC</button>
-    <button class="nav" data-cat="indylights">Indy</button><br>
+    <button class="nav" data-cat="indylights">Indy</button>
     <button id="accountBtn" class="nav">Account</button>
   </nav>
 </header>
 
 <main class="content">
-  <iframe id="latestFrame" src="latest/latest.html" title="Latest content" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+  <iframe id="latestFrame" src="latest/latest.html" title="Latest content" sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
 </main>
 
 <script type="module">
@@ -44,7 +44,7 @@
   if (accountBtn) {
     accountBtn.addEventListener("click", () => {
       const user = auth.currentUser || localStorage.getItem("uid");
-      if (user) window.location.href = "/auth/profile.html"; // ✅ updated redirect
+      if (user) window.location.href = "/auth/profile.html";
       else window.location.href = "/auth/auth.html";
     });
   }
