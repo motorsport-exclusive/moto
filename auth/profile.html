@@ -1,85 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Moto Profile - Motorsport Exclusive</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- GSAP (animations) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
   <style>
-    body {
+    :root{
+      --bg-1:#070707;
+      --bg-2:#0b0b0b;
+      --accent:#ff2d2d;
+      --accent-2:#ffd24d;
+      --glass: rgba(255,255,255,0.05);
+      --glass-2: rgba(255,255,255,0.03);
+      --muted: rgba(255,255,255,0.7);
+      --card-width: clamp(320px, 86vw, 520px);
+      --neon: 0 6px 20px rgba(255,45,45,0.16), 0 0 30px rgba(255,45,45,0.06);
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(1200px 400px at 10% 10%, rgba(255,45,45,0.03), transparent 10%),
+        linear-gradient(135deg, rgba(255,45,45,0.02), rgba(0,0,0,0.45)),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 8px),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
       font-family: 'Inter', Arial, sans-serif;
-      background: linear-gradient(135deg, #111, #ff0000);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:48px 20px;
+      overflow:auto;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1200px;
+      display:flex;
+      gap:28px;
+      align-items:flex-start;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .profile-card{
+      width:var(--card-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.04);
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .profile-card::before{
+      content:"";
+      position:absolute;
+      left:-40%;
+      top:-30%;
+      width:200%;
+      height:160%;
+      background: linear-gradient(90deg, rgba(255,45,45,0.08), rgba(255,210,77,0.04), transparent 60%);
+      transform: rotate(-12deg);
+      pointer-events:none;
+      mix-blend-mode: screen;
+    }
+
+    header.card-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      z-index:2;
+      position:relative;
+    }
+
+    .avatar {
+      width:108px;
+      height:108px;
+      border-radius:50%;
+      padding:6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border: 3px solid rgba(255,255,255,0.04);
+      box-shadow: var(--neon);
+    }
+
+    .avatar img{
+      width:96px;
+      height:96px;
+      border-radius:50%;
+      object-fit:cover;
+      display:block;
+      border:2px solid rgba(0,0,0,0.5);
+    }
+
+    .user-info{
+      text-align:left;
+      flex:1;
+      color:var(--muted);
+    }
+
+    .user-info h1{
+      margin:0;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing:0.6px;
+      color:var(--accent-2);
+      font-size:1.15rem;
+      font-weight:700;
+    }
+
+    .user-info p{
+      margin:6px 0 0 0;
+      font-size:0.92rem;
+      color: #dcdcdc;
+      opacity:0.9;
+    }
+
+    .meta{
+      margin-top:12px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      background: var(--glass-2);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:0.82rem;
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    .actions{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .btn {
+      appearance:none;
+      border:0;
+      padding:10px 14px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:0.95rem;
+      transition: transform .14s ease, box-shadow .14s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    }
+
+    .btn.primary{
+      background: linear-gradient(90deg, var(--accent), #ff6b6b);
+      color:white;
+      box-shadow: 0 8px 30px rgba(255,45,45,0.12);
+    }
+    .btn.primary:hover{ transform: translateY(-3px) scale(1.02); }
+
+    .btn.ghost{
+      background: rgba(255,255,255,0.03);
       color: #fff;
-      overflow-y: auto;
-      padding: 30px 0;
+      border:1px solid rgba(255,255,255,0.04);
     }
-    .profile-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 25px 20px;
-      width: clamp(280px, 85vw, 380px);
-      box-shadow: 0px 8px 25px rgba(0,0,0,0.5);
-      text-align: center;
-      margin-bottom: 25px;
+    .btn.ghost:hover{ transform: translateY(-3px); }
+
+    .btn.warning{
+      background: linear-gradient(90deg, #ffb84d, #ffd24d);
+      color:#111;
     }
-    h1 {
-      margin-bottom: 15px;
-      color: #ff4444;
+
+    .username-input {
+      flex:1 1 100%;
+      display:flex;
+      gap:8px;
+      margin-top:12px;
     }
-    img {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      border: 3px solid #ff0000;
-      object-fit: cover;
-    }
-    p { margin: 6px 0; }
-    .btns {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 10px;
-      background: #ff0000;
+    .username-input input{
+      flex:1;
+      padding:10px 12px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.04);
       color: #fff;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: 0.3s;
+      font-size:0.95rem;
     }
-    button:hover { background: #cc0000; transform: scale(1.05); }
-    .ghost { background: #333; }
-    .ghost:hover { background: #555; }
+
+    /* provider list */
+    .provider-list{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .provider-item{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.03);
+      font-size:0.88rem;
+    }
+    .provider-item .unlink{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.05);
+      color:#fff;
+      padding:6px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:0.78rem;
+    }
+    .provider-item .unlink[disabled]{
+      opacity:0.45;
+      cursor:not-allowed;
+    }
+
+    .stat{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    .stat strong{ color:var(--accent-2); font-family: 'Orbitron', sans-serif; }
+    .stat small{ color: #cfcfcf; }
+
+    .email-wrap{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .copy-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.04);
+      padding:6px 8px;
+      border-radius:8px;
+      color:#fff;
+      cursor:pointer;
+      font-size:0.82rem;
+    }
+
+    .footer-note{
+      margin-top:22px;
+      text-align:center;
+      font-size:0.82rem;
+      color:rgba(255,255,255,0.6);
+    }
+
+    @media (max-width:920px){
+      .wrap{ flex-direction:column; align-items:center; }
+    }
   </style>
 </head>
 <body>
-  <!-- Profile Card -->
-  <div class="profile-card" id="profileCard">
-    <h1>Moto Profile</h1>
-    <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture">
-    <p id="name">Name: Loading...</p>
-    <p id="email">Email: Loading...</p>
-    <div class="btns">
-      <button id="connectGoogleBtn" class="ghost">Connect Google</button>
-      <button id="refreshBtn" class="ghost">Refresh Profile</button>
-      <button id="logoutBtn">Logout</button>
+  <div class="wrap">
+    <div class="profile-card" id="profileCard">
+      <header class="card-head">
+        <div class="avatar" aria-hidden="true">
+          <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture">
+        </div>
+
+        <div class="user-info">
+          <h1 id="name">Loading...</h1>
+          <p id="email">...</p>
+
+          <div class="meta" id="meta">
+            <span class="pill" id="providerPill">Provider: -</span>
+            <span class="pill" id="statusPill">Status: Active</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="actions" style="margin-top:16px;">
+        <button id="connectGoogleBtn" class="btn ghost" title="Link your Google account">Connect Google</button>
+        <button id="refreshBtn" class="btn ghost" title="Refresh profile data">Refresh</button>
+        <button id="logoutBtn" class="btn primary" title="Sign out">Logout</button>
+
+        <!-- Update username UI -->
+        <div class="username-input" style="margin-left:0; margin-top:8px; width:100%;">
+          <input id="usernameInput" type="text" placeholder="Enter new username">
+          <button id="updateNameBtn" class="btn ghost" title="Update display name">Update</button>
+        </div>
+
+        <!-- Change password button -> redirected to auth.html -->
+        <button id="changePassBtn" class="btn ghost" title="Change password (go to auth)">Change Password</button>
+      </div>
+
+      <div style="margin-top:18px; color:rgba(255,255,255,0.75); font-size:0.92rem;">
+        <p style="margin:0 0 8px 0;">Welcome to Motorsport Exclusive — your profile hub. Link accounts to enable faster sign-in and sync.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <span class="pill">Pro Member</span>
+          <span class="pill">Fast Lap: 1:47.32</span>
+        </div>
+      </div>
+
     </div>
+
+    <aside class="side-card" aria-label="Profile stats and vehicle">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-weight:700; color:var(--accent-2); font-family:'Orbitron',sans-serif;">Account Overview</div>
+          <div style="font-size:0.85rem; color:rgba(255,255,255,0.8);">Details & quick actions</div>
+        </div>
+        <!-- subtle vehicle SVG -->
+        <svg width="86" height="46" viewBox="0 0 86 46" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.12;">
+          <path d="M2 34c4-8 10-12 20-12h36c8 0 14 6 18 12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="36" r="4" fill="#fff"/><circle cx="62" cy="36" r="4" fill="#fff"/>
+        </svg>
+      </div>
+
+      <!-- Aligned email row with copy -->
+      <div class="stat">
+        <small>Email</small><span></span>
+        <div class="email-wrap">
+          <strong id="statEmail">—</strong>
+          <button id="copyEmailBtn" class="copy-btn" title="Copy email">Copy</button>
+        </div>
+      </div>
+
+      <!-- Providers now render as pills with unlink actions -->
+      <div class="stat" style="align-items:flex-start;">
+        <small style="margin-top:8px;">linked</small>
+        <div id="providerList" class="provider-list" aria-live="polite"><br>
+          <strong id="statProviders">—</strong>
+        </div>
+      </div>
+
+      <div class="stat"><small>Account created</small><strong id="statCreated">—</strong></div>
+
+      <div style="margin-top:6px; display:flex; gap:8px;">
+        <button id="manageBtn" class="btn ghost" style="flex:1">Manage Account</button>
+        <button id="supportBtn" class="btn warning">Support</button>
+      </div>
+
+      <div class="footer-note">Tip: If unlinking a provider requires recent login you'll be redirected to re-authenticate.</div>
+    </aside>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, GoogleAuthProvider, linkWithPopup, signOut } 
-      from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      GoogleAuthProvider,
+      linkWithPopup,
+      signOut,
+      updateProfile,
+      unlink
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCR1RiCfqPUJHOqByJTfK2c4rz96cGrzjw",
@@ -95,34 +382,124 @@
     const provider = new GoogleAuthProvider();
     let currentUser = null;
 
+    // Elements
     const profilePic = document.getElementById("profilePic");
     const nameEl = document.getElementById("name");
     const emailEl = document.getElementById("email");
     const connectBtn = document.getElementById("connectGoogleBtn");
     const refreshBtn = document.getElementById("refreshBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const providerPill = document.getElementById("providerPill");
+    const statusPill = document.getElementById("statusPill");
+    const statEmail = document.getElementById("statEmail");
+    const statProviders = document.getElementById("statProviders");
+    const statCreated = document.getElementById("statCreated");
+    const providerList = document.getElementById("providerList");
+    const copyEmailBtn = document.getElementById("copyEmailBtn");
 
-    gsap.from("#profileCard", { duration: 1, opacity: 0, scale: 0.9, y: 50, ease: "power3.out" });
+    // New elements
+    const usernameInput = document.getElementById("usernameInput");
+    const updateNameBtn = document.getElementById("updateNameBtn");
+    const changePassBtn = document.getElementById("changePassBtn");
+
+    gsap.from(".profile-card", { duration: 0.9, opacity:0, y:30, scale:0.98, ease:"power3.out" });
+    gsap.from(".side-card", { duration: 1.0, opacity:0, x:30, delay:0.12, ease:"power3.out" });
 
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        window.location.href = "/auth/auth.html"; // redirect if not logged in
+        window.location.href = "/auth/auth.html";
         return;
       }
       currentUser = user;
       updateProfileUI(user);
       checkGoogleLinked(user);
+      renderProviders(user);
     });
 
     function updateProfileUI(user) {
       profilePic.src = user.photoURL || "https://via.placeholder.com/100";
-      nameEl.innerText = "Name: " + (user.displayName || "Anonymous");
-      emailEl.innerText = "Email: " + (user.email || "No Email");
+      nameEl.innerText = user.displayName || "Anonymous Racer";
+      emailEl.innerText = user.email || "No Email";
+      statEmail.innerText = user.email || "—";
+      statCreated.innerText = user.metadata?.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : "—";
+      const providers = (user.providerData || []).map(p => p.providerId).join(', ') || "none";
+      statProviders.innerText = providers;
+      providerPill.innerText = "Providers: " + (providers || "none");
+
+      if (usernameInput) usernameInput.value = user.displayName || "";
     }
 
     function checkGoogleLinked(user) {
-      const linked = user.providerData.some(p => p.providerId === "google.com");
-      connectBtn.style.display = linked ? "none" : "block";
+      const linked = (user.providerData || []).some(p => p.providerId === "google.com");
+      connectBtn.style.display = linked ? "none" : "inline-block";
+      statusPill.innerText = linked ? "Google linked" : "Google not linked";
+    }
+
+    // render providers with unlink buttons
+    function providerFriendlyName(pid) {
+      switch (pid) {
+        case 'google.com': return {name: 'Google', icon: '🟢'};
+        case 'facebook.com': return {name: 'Facebook', icon: '🔵'};
+        case 'github.com': return {name: 'GitHub', icon: '⚫'};
+        case 'password': return {name: 'Email & Password', icon: '✉️'};
+        case 'phone': return {name: 'Phone', icon: '📞'};
+        default: return {name: pid, icon: '🔗'};
+      }
+    }
+
+    function renderProviders(user) {
+      providerList.innerHTML = '';
+      const pdata = (user.providerData || []);
+      if (!pdata.length) {
+        providerList.innerHTML = '<strong>none</strong>';
+        return;
+      }
+
+      pdata.forEach(p => {
+        const info = providerFriendlyName(p.providerId);
+        const item = document.createElement('span');
+        item.className = 'provider-item';
+        item.innerHTML = `<span style="display:inline-flex;gap:8px;align-items:center;"><span aria-hidden="true">${info.icon}</span><span>${info.name}</span></span>`;
+
+        // add unlink action for non-password providers
+        const btn = document.createElement('button');
+        btn.className = 'unlink';
+        btn.type = 'button';
+        btn.title = 'Unlink ' + info.name;
+        if (p.providerId === 'password') {
+          btn.textContent = 'Cannot unlink';
+          btn.disabled = true;
+        } else {
+          btn.textContent = 'Unlink';
+          btn.addEventListener('click', async () => {
+            const ok = confirm(`Unlink ${info.name}? This will remove that sign-in method from your account.`);
+            if (!ok) return;
+            try {
+              await unlink(auth.currentUser, p.providerId);
+              // reload user and UI
+              if (typeof auth.currentUser.reload === "function") await auth.currentUser.reload();
+              currentUser = auth.currentUser;
+              updateProfileUI(currentUser);
+              checkGoogleLinked(currentUser);
+              renderProviders(currentUser);
+              alert(`${info.name} unlinked.`);
+            } catch (err) {
+              console.error(err);
+              // common error: requires recent login
+              if (err && err.code === 'auth/requires-recent-login') {
+                alert('Recent authentication required. You will be redirected to sign in again.');
+                await signOut(auth).catch(()=>{});
+                window.location.href = '/auth/auth.html';
+                return;
+              }
+              alert('Could not unlink: ' + (err.message || err));
+            }
+          });
+        }
+
+        item.appendChild(btn);
+        providerList.appendChild(item);
+      });
     }
 
     connectBtn.addEventListener("click", async () => {
@@ -131,17 +508,65 @@
         currentUser = result.user;
         updateProfileUI(currentUser);
         checkGoogleLinked(currentUser);
+        renderProviders(currentUser);
         alert("✅ Google account linked!");
       } catch (e) {
-        alert("❌ Failed to link Google: " + e.message);
+        console.error(e);
+        alert("❌ Failed to link Google: " + (e.message || e));
+      }
+    });
+
+    // Update display name
+    updateNameBtn.addEventListener("click", async () => {
+      const newName = (usernameInput.value || "").trim();
+      if (!newName) {
+        alert("Please enter a username.");
+        return;
+      }
+      try {
+        if (!auth.currentUser) throw new Error("No authenticated user.");
+        await updateProfile(auth.currentUser, { displayName: newName });
+        if (typeof auth.currentUser.reload === "function") await auth.currentUser.reload();
+        currentUser = auth.currentUser;
+        updateProfileUI(currentUser);
+        alert("✅ Display name updated.");
+      } catch (e) {
+        console.error(e);
+        alert("❌ Could not update display name: " + (e.message || e));
+      }
+    });
+
+    // Change password -> redirect to auth.html (as requested)
+    changePassBtn.addEventListener("click", () => {
+      window.location.href = "/auth/auth.html";
+    });
+
+    // copy email
+    copyEmailBtn.addEventListener('click', async () => {
+      const txt = statEmail.innerText || '';
+      try {
+        await navigator.clipboard.writeText(txt);
+        alert('Email copied to clipboard.');
+      } catch (e) {
+        console.error(e);
+        alert('Copy failed.');
       }
     });
 
     refreshBtn.addEventListener("click", async () => {
-      await currentUser.reload();
-      updateProfileUI(currentUser);
-      checkGoogleLinked(currentUser);
-      alert("Profile refreshed!");
+      try {
+        if (auth.currentUser && typeof auth.currentUser.reload === "function") {
+          await auth.currentUser.reload();
+          currentUser = auth.currentUser;
+        }
+        updateProfileUI(currentUser);
+        checkGoogleLinked(currentUser);
+        renderProviders(currentUser);
+        alert("Profile refreshed!");
+      } catch (e) {
+        console.error(e);
+        alert("❌ Refresh failed: " + (e.message || e));
+      }
     });
 
     logoutBtn.addEventListener("click", async () => {
@@ -150,8 +575,17 @@
         localStorage.clear();
         window.location.href = "/auth/auth.html";
       } catch (e) {
-        alert("❌ Logout failed: " + e.message);
+        console.error(e);
+        alert("❌ Logout failed: " + (e.message || e));
       }
+    });
+
+    // quick action placeholders
+    document.getElementById("manageBtn").addEventListener("click", () => {
+      alert("Open account management (not implemented).");
+    });
+    document.getElementById("supportBtn").addEventListener("click", () => {
+      alert("Contact support at support@motorsportexclusive.example (placeholder).");
     });
   </script>
 </body>
